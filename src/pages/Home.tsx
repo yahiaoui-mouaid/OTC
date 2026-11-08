@@ -1,8 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { REGISTRATION_OPEN } from '../content/config';
 import { webglOk } from '../lib/otto';
-import { BotBay, BotBuilder } from '../components/BotBay';
-import { RegisterForm } from '../components/RegisterForm';
+import { BotBuilder, CrewDirectory } from '../components/BotBay';
 import { Footer, Header, JoinButton, OttoFlat, useEyes } from '../components/Chrome';
 
 const Otto3D = lazy(() => import('../components/Otto3D'));
@@ -148,8 +147,8 @@ export default function Home() {
           </div>
         </section>
         <section id="team" className="section section--soft">
-          <div className="wrap section-head"><h2>Meet the crew</h2><p>Every member here is a one-off robot, generated from their name. Select one to read its spec.</p></div>
-          <div className="wrap"><BotBay /></div>
+          <div className="wrap crew__head"><h2>Meet the crew</h2><p>The people who run OTC and lead each department. Every portrait is a robot generated from the member’s name.</p></div>
+          <div className="wrap"><CrewDirectory /></div>
         </section>
         <section className="section on-board builder-wrap" aria-label="Build your own robot"><BotBuilder /></section>
         <section id="join" className="section">
@@ -158,7 +157,7 @@ export default function Home() {
               <h2>How to join</h2>
               <p className="join__status"><span className={`dot${REGISTRATION_OPEN ? '' : ' dot--off'}`} aria-hidden="true" />{REGISTRATION_OPEN ? 'Registration is open now.' : 'Registration is closed right now.'}</p>
               <ol className="steps">
-                <li><h3>Register online</h3><p>Fill the form on this page. It takes a few minutes.</p></li>
+                <li><h3>Register online</h3><p>Fill in the registration form. It takes a few minutes.</p></li>
                 <li><h3>Meet the crew</h3><p>We contact you to get to know you and answer your questions.</p></li>
                 <li><h3>Pick a team</h3><p>Join a team that fits your interests and start building with us.</p></li>
               </ol>
@@ -166,12 +165,11 @@ export default function Home() {
             <div className="faq">
               <h2 className="faq__title">Questions</h2>
               <Q q="Do I need experience?">No. You need curiosity and the will to build something with other people.</Q>
-              <Q q="How do I register?">Use the registration form on this page while registration is open. The status shows at the top of this page and in this section.</Q>
+              <Q q="How do I register?">Fill in the form on the <a href="register.html">registration page</a> while registration is open. The status shows at the top of this page and in this section.</Q>
               <Q q="Can I join more than one department?">Yes. Pick up to three departments in the form.</Q>
             </div>
           </div>
         </section>
-        {REGISTRATION_OPEN && <section id="register" className="register" aria-label="Register for OTC"><RegisterForm embedded /></section>}
         <section className="closer on-otto" aria-labelledby="closer-title">
           <div className="wrap closer__in">
             <h2 className="closer__title" id="closer-title">Every dream needs a team.</h2>

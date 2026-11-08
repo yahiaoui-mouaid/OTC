@@ -75,6 +75,23 @@ function Badge({ tool, g }: { tool: Tool; g: Genes }) {
   );
 }
 
+// Directory portrait: same framing and colour for everyone. Only the face changes with the name.
+export function BotAvatar({ name }: { name: string }) {
+  const g = useMemo(() => genesFor(name), [name]);
+  const c = '#04202B';
+  return (
+    <span className="avatar" aria-hidden="true">
+      <svg viewBox="0 -4 200 200">
+        <path d="M28 196v-20a36 36 0 0 1 36-36h72a36 36 0 0 1 36 36v20z" fill={c} />
+        <rect x="86" y="126" width="28" height="20" fill={c} />
+        <Head g={g} c={c} />
+        <Antenna g={g} c={c} />
+        <g data-eyes><Eyes g={g} /></g>
+      </svg>
+    </span>
+  );
+}
+
 type Props = { name: string; tool: Tool; stage?: number; title?: string; className?: string };
 
 // stage 0-4 reveals parts in build order: base, torso, head, antenna and eyes.

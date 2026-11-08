@@ -1,58 +1,41 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { CREW, type Member, type Team } from '../content/crew';
+import { CREW, type Member } from '../content/crew';
 import { describe, downloadBot, genesFor, type Tool } from '../lib/bot';
-import { Bot } from './Bot';
+import { Bot, BotAvatar } from './Bot';
 import { ext, useEyes } from './Chrome';
 
-type Pick = { member: Member; team: Team };
 const FIELDS: readonly [Tool, string][] = [['tech', 'Robotics'], ['cs', 'Computer science'], ['spark', 'Innovation']];
 const KEY = 'otc-my-bot';
 
-export function BotBay() {
-  const root = useRef<HTMLDivElement>(null);
-  useEyes(root);
-  const reduce = useReducedMotion();
-  const first: Pick = { member: CREW[0].members[0], team: CREW[0] };
-  const [pick, setPick] = useState<Pick>(first);
-  const g = genesFor(pick.member[0]);
-
+function MemberCard({ member: [name, role, link] }: { member: Member }) {
   return (
-    <div className="bay" ref={root}>
-      <aside className="bay__detail" aria-live="polite">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div key={pick.member[0]} className="spec" initial={reduce ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -10 }} transition={{ duration: 0.16 }}>
-            <Bot name={pick.member[0]} tool={pick.team.key} className="spec__bot" />
-            <div className="spec__text">
-              <p className="spec__serial">{g.serial}</p>
-              <h3>{pick.member[0]}</h3>
-              <p className="spec__role">{pick.member[1]}{pick.team.key === 'board' ? '' : `, ${pick.team.title}`}</p>
-              <p className="spec__genes">Built with {describe(g)}.</p>
-              {pick.member[2] && <a className="spec__link" href={pick.member[2]} {...ext} aria-label={`${pick.member[0]} on LinkedIn`}>LinkedIn</a>}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </aside>
-      <div className="bay__shelves">
-        {CREW.map((team) => (
-          <section className={`shelf shelf--${team.key}`} key={team.key} aria-label={`${team.title} team`}>
-            <ul className="shelf__bots">
-              {team.members.map((m) => (
-                <li key={m[0]}>
-                  <button type="button" className="unit" aria-pressed={pick.member[0] === m[0]} onClick={() => setPick({ member: m, team })}>
-                    <Bot name={m[0]} tool={team.key} className="unit__bot" />
-                    <span className="unit__name">{m[0]}</span>
-                    <span className="unit__role">{m[1]}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <div className="shelf__rail" />
-            <h3>{team.title}</h3>
-            <p>{team.desc}</p>
-          </section>
-        ))}
+    <li className="member">
+      <BotAvatar name={name} />
+      <div>
+        <p className="member__name">{name}</p>
+        <p className="member__role">{role}</p>
+        {link && <a className="member__link" href={link} {...ext} aria-label={`${name} on LinkedIn`}>LinkedIn</a>}
       </div>
+    </li>
+  );
+}
+
+export function CrewDirectory() {
+  const root = useRef<HTMLDivElement>(null);
+  useEyes(root, 3);
+  return (
+    <div className="crew" ref={root}>
+      {CREW.map((team) => (
+        <section className={`crew__row${team.key === 'board' ? ' crew__row--board' : ''}`} key={team.key} aria-labelledby={`team-${team.key}`}>
+          <div className="crew__team">
+            <h3 id={`team-${team.key}`}>{team.title}</h3>
+            <p>{team.desc}</p>
+          </div>
+          <ul className="crew__members">
+            {team.members.map((m) => <MemberCard key={m[0]} member={m} />)}
+          </ul>
+        </section>
+      ))}
     </div>
   );
 }

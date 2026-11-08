@@ -5,14 +5,9 @@ import { EYE_L, EYE_R, EYE_R_SIZE, BALL, HEAD, STANDING, STEM, VIEWBOX } from '.
 
 export const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
-export function Mark() {
-  return (
-    <svg className="brand__mark" viewBox="0 -114 500 596" aria-hidden="true">
-      <path fill="#E5537A" d={STEM} /><circle fill="#E5537A" cx={BALL[0]} cy={BALL[1]} r={BALL[2]} />
-      <path fill="#1BAFD1" d={HEAD} /><rect fill="#1BAFD1" x="100" y="380" width="300" height="100" rx="50" />
-      <circle fill="#E5537A" cx={EYE_L[0]} cy={EYE_L[1]} r={EYE_R_SIZE} /><circle fill="#E5537A" cx={EYE_R[0]} cy={EYE_R[1]} r={EYE_R_SIZE} />
-    </svg>
-  );
+export function Logo({ variant }: { variant: 'stacked' | 'horizontal' }) {
+  const size = variant === 'stacked' ? { width: 1019, height: 700 } : { width: 1274, height: 543 };
+  return <img className={`brand__logo brand__logo--${variant}`} src={`img/logo/otc-${variant}.svg`} alt="" {...size} />;
 }
 
 export function OttoFlat({ asleep = false, label }: { asleep?: boolean; label: string }) {
@@ -53,7 +48,7 @@ export function useEyes(root: React.RefObject<HTMLElement | null>, reach = 5) {
 }
 
 export function JoinButton({ open, closed, className = 'btn' }: { open: string; closed: string; className?: string }) {
-  return REGISTRATION_OPEN ? <a className={className} href="#register">{open}</a> : <a className={className} href={INSTAGRAM} {...ext}>{closed}</a>;
+  return REGISTRATION_OPEN ? <a className={className} href="register.html">{open}</a> : <a className={className} href={INSTAGRAM} {...ext}>{closed}</a>;
 }
 
 const LINKS = [['What we do', 'about'], ['Games', 'games'], ['Why join', 'benefits'], ['Crew', 'team'], ['Join', 'join']] as const;
@@ -90,7 +85,7 @@ export function Header({ home = false }: { home?: boolean }) {
   return (
     <header className={`nav${stuck ? ' is-stuck' : ''}`}>
       <div className="wrap nav__in">
-        <a className="brand" href="index.html" aria-label="One Tech Crew, home"><Mark /><span className="brand__name">OTC</span></a>
+        <a className="brand" href="index.html" aria-label="One Tech Crew, home"><Logo variant="stacked" /></a>
         <button ref={burger} className="burger" type="button" aria-expanded={open} aria-controls="menu" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(!open)}><i /><i /><i /></button>
         <nav id="menu" className={`menu${open ? ' open' : ''}`} aria-label="Main">
           <ul className="menu__links">
@@ -114,7 +109,7 @@ export function Footer() {
   return (
     <footer className="foot on-board">
       <div className="wrap foot__in">
-        <a className="brand" href="index.html" aria-label="One Tech Crew, home"><Mark /><span className="brand__name">One Tech Crew</span></a>
+        <a className="brand" href="index.html" aria-label="One Tech Crew, home"><Logo variant="horizontal" /></a>
         <nav aria-label="Social media"><ul className="foot__links">{SOCIALS.map(([t, u]) => <li key={t}><a href={u} {...ext}>{t}</a></li>)}</ul></nav>
         <p className="foot__copy">&copy; {new Date().getFullYear()} One Tech Crew. All rights reserved.</p>
       </div>

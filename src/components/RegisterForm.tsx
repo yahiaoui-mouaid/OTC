@@ -92,7 +92,7 @@ export function Band() {
   );
 }
 
-export function RegisterForm({ embedded = false }: { embedded?: boolean }) {
+export function RegisterForm() {
   const [v, setV] = useState<Registration>(EMPTY);
   const [step, setStep] = useState(0);
   const [checked, setChecked] = useState<Set<number>>(new Set());
@@ -105,8 +105,6 @@ export function RegisterForm({ embedded = false }: { embedded?: boolean }) {
   const doneRef = useRef<HTMLElement>(null);
   const botRef = useRef<SVGSVGElement>(null);
   const moved = useRef(false);
-  const Title = embedded ? 'h2' : 'h1';
-  const StepTitle = embedded ? 'h3' : 'h2';
 
   useEffect(() => {
     try {
@@ -177,7 +175,7 @@ export function RegisterForm({ embedded = false }: { embedded?: boolean }) {
         <section className="page-hero" ref={doneRef} tabIndex={-1} aria-labelledby="done-t">
           <div className="wrap page-hero__stage">
             <div className="page-hero__copy">
-              <Title id="done-t" className="page-hero__title">{done.demo ? 'Demo complete' : 'Registration received'}</Title>
+              <h1 id="done-t" className="page-hero__title">{done.demo ? 'Demo complete' : 'Registration received'}</h1>
               <p>{done.demo ? `Thanks, ${first}. This was a demo: your registration was NOT saved or sent to the club.` : `Thanks, ${first}. We received your registration and will contact you at ${v.email.trim()}.`}</p>
               <dl className="summary">
                 <div><dt>Email</dt><dd>{v.email.trim()}</dd></div>
@@ -227,14 +225,14 @@ export function RegisterForm({ embedded = false }: { embedded?: boolean }) {
         </aside>
         <div className={`apply__main${step ? ' is-later' : ''}`}>
           <div className="apply__intro">
-            {!embedded && <a className="back" href="index.html">Back to home</a>}
-            <Title className="apply__title">Register for OTC</Title>
+            <a className="back" href="index.html">Back to home</a>
+            <h1 className="apply__title">Register for OTC</h1>
             <p className="apply__lead">It takes a few minutes, and your robot builds itself from your answers. Every field is required unless it says “Optional”.</p>
           </div>
           <form className="form" noValidate onSubmit={submit}>
             {!API_URL && <p className="notice"><strong>Demo mode.</strong> This form is not connected to a server. Nothing you enter is saved or sent.</p>}
             <fieldset className="step" aria-labelledby={`t${step}`}>
-              <StepTitle className="step__title" id={`t${step}`} tabIndex={-1} ref={(el: HTMLHeadingElement | null) => { titles.current[step] = el; }}>{NAMES[step]}</StepTitle>
+              <h2 className="step__title" id={`t${step}`} tabIndex={-1} ref={(el: HTMLHeadingElement | null) => { titles.current[step] = el; }}>{NAMES[step]}</h2>
 
               {step === 0 && <>
                 <div className="row">

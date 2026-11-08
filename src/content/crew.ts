@@ -17,7 +17,7 @@ export const CREW: readonly Team[] = [
     ['Mouaid Yahiaoui', 'Leader', 'https://www.linkedin.com/in/mouaid-yahiaoui-a2bb2b284/'],
     ['Sarra Meraouche', 'Co-leader', 'https://dz.linkedin.com/in/sarra-meraouche-b16bb22a9'],
   ] },
-  { key: 'sm', title: 'SM', desc: "Social media, content and the club's online image.", members: [
+  { key: 'sm', title: 'Social media', desc: "Social media, content and the club's online image.", members: [
     ['Malak Yassamine Aouaichra', 'Leader', 'https://www.linkedin.com/in/malak-yassamine-38a725319'],
     ['Amina Lebbal', 'Co-leader', 'https://www.linkedin.com/in/amina-lebbal'],
   ] },
